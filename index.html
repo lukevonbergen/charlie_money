@@ -3,114 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Performance Manager - Demo</title>
+    <title>Performance Manager - Demo Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
         }
-
-        .gradient-background {
-            background: linear-gradient(120deg, #3b82f6 0%, #1d4ed8 100%);
+        .card-shine {
+            position: relative;
+            overflow: hidden;
         }
-
-        .input-focus {
-            transition: all 0.3s ease;
+        .card-shine::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
         }
-
-        .input-focus:focus {
-            transform: scale(1.02);
+        @keyframes shine {
+            0% { transform: translateX(-50%) rotate(45deg); }
+            100% { transform: translateX(150%) rotate(45deg); }
         }
-
-        .login-button {
-            transition: all 0.3s ease;
+        .floating {
+            animation: float 3s ease-in-out infinite;
         }
-
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
     </style>
 </head>
-<body class="gradient-background min-h-screen flex items-center justify-center px-4">
-    <div class="max-w-md w-full space-y-8 fade-in">
-        <!-- Logo Section -->
-        <div class="bg-white rounded-t-2xl p-8 text-center shadow-lg">
-            <div class="mb-6">
-                <svg class="mx-auto h-16 w-16 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-                </svg>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <!-- Left Side - Platform Info -->
+        <div class="text-white space-y-6 p-4">
+            <div class="space-y-4">
+                <h1 class="text-4xl font-bold">Performance Manager</h1>
+                <p class="text-xl text-blue-100">Revolutionize your venue's entertainment management</p>
             </div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Performance Manager</h2>
-            <p class="text-gray-600">Demo Account Access</p>
+
+            <div class="space-y-4 mt-8">
+                <div class="flex items-start space-x-4">
+                    <div class="p-2 bg-blue-500 bg-opacity-20 rounded-lg">
+                        <i class="fas fa-star text-yellow-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Real-time Ratings</h3>
+                        <p class="text-blue-100">Instant feedback from your customers about performances</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4">
+                    <div class="p-2 bg-blue-500 bg-opacity-20 rounded-lg">
+                        <i class="fas fa-chart-line text-green-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Performance Analytics</h3>
+                        <p class="text-blue-100">Detailed insights into your venue's entertainment success</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4">
+                    <div class="p-2 bg-blue-500 bg-opacity-20 rounded-lg">
+                        <i class="fas fa-mobile-alt text-purple-300 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">Digital Tipping</h3>
+                        <p class="text-blue-100">Seamless digital tipping system for performers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4 mt-8">
+                <div class="flex -space-x-2">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=1" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=2" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=3" alt="User" class="w-10 h-10 rounded-full border-2 border-white">
+                </div>
+                <p class="text-sm text-blue-100">Join 100+ venues already using our platform</p>
+            </div>
         </div>
 
-        <!-- Login Form -->
-        <div class="bg-white rounded-b-2xl px-8 pb-8 shadow-lg">
-            <form class="space-y-6" id="loginForm">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input type="email" value="demo@bluenotevenue.com" readonly
-                           class="input-focus w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+        <!-- Right Side - Login Form -->
+        <div class="card-shine bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-auto">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-blue-500 rounded-full mx-auto mb-4 floating flex items-center justify-center">
+                    <i class="fas fa-music text-3xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Demo Access</h2>
+                <p class="text-gray-500 mt-2">Experience the full platform features</p>
+            </div>
+
+            <form action="dashboard.html" class="space-y-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="email" 
+                                value="demo@bluenotevenue.com" 
+                                readonly 
+                                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                value="demoaccess123" 
+                                readonly 
+                                class="pl-10 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input type="password" value="demoaccess123" readonly
-                           class="input-focus w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-                </div>
-
-                <button type="submit"
-                        class="login-button w-full py-3 px-4 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Access Demo Account
+                <button 
+                    type="submit"
+                    class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
+                >
+                    <span>Access Demo Platform</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
-
-                <div class="text-center space-y-2">
-                    <p class="text-sm text-gray-500">This is a demo account pre-loaded with sample data</p>
-                    <p class="text-xs text-gray-400">All features are functional but data is not saved</p>
-                </div>
             </form>
+
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <p>This is a demonstration account.</p>
+                <p>All features are functional but data is not persistent.</p>
+            </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animate elements in
-            gsap.to('.fade-in', {
-                duration: 1,
-                opacity: 1,
-                y: 0,
-                ease: 'power3.out'
-            });
-
-            // Handle form submission
-            document.getElementById('loginForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                // Animate button
-                const button = e.target.querySelector('button');
-                button.textContent = 'Loading...';
-                button.disabled = true;
-
-                // Simulate loading
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            });
-        });
-    </script>
+    <!-- Optional: Background Elements -->
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
+        <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-blue-400 rounded-full filter blur-3xl opacity-10 transform translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-1/3 h-1/3 bg-blue-600 rounded-full filter blur-3xl opacity-10 transform -translate-x-1/2 translate-y-1/2"></div>
+    </div>
 </body>
 </html>
