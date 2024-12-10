@@ -293,28 +293,37 @@
     </main>
 
     <script>
-        // Initialize performance chart
+        // Initialize performance chart with both lines
         const ctx = document.getElementById('performanceChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Average Rating',
-                    data: [4.5, 4.6, 4.8, 4.7, 4.9, 4.8, 4.7],
-                    borderColor: '#2563eb',
-                    tension: 0.4,
-                    fill: false
-                }, {
-                    label: 'Total Tips (£)',
-                    data: [250, 320, 280, 400, 450, 380, 342],
-                    borderColor: '#16a34a',
-                    tension: 0.4,
-                    fill: false
-                }]
+                datasets: [
+                    {
+                        label: 'Average Rating',
+                        data: [4.5, 4.6, 4.8, 4.7, 4.9, 4.8, 4.7],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Tips (£)',
+                        data: [250, 320, 280, 400, 450, 380, 342],
+                        borderColor: '#16a34a',
+                        backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }
+                ]
             },
             options: {
                 responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
                 plugins: {
                     legend: {
                         position: 'bottom'
@@ -326,11 +335,27 @@
                 },
                 scales: {
                     y: {
-                        beginAtZero: false,
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Rating'
+                        },
                         min: 3,
-                        max: 5,
-                        ticks: {
-                            stepSize: 0.5
+                        max: 5
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Tips (£)'
+                        },
+                        min: 0,
+                        grid: {
+                            drawOnChartArea: false
                         }
                     }
                 }
