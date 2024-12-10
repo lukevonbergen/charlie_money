@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Blue Note - Demo Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .schedule-item {
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            transform: scale(1.02);
+            background-color: #f8fafc;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .notification-dot {
+            position: relative;
+        }
+
+        .notification-dot::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <span class="text-xl font-bold text-blue-600">The Blue Note</span>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">Demo Account</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-full hover:bg-gray-100 notification-dot">
+                        <i class="fas fa-bell text-gray-600"></i>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-gray-100">
+                        <i class="fas fa-cog text-gray-600"></i>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                            VD
+                        </div>
+                        <span class="text-sm text-gray-600">Venue Demo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-6 px-4">
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="stat-card bg-white p-6 rounded-lg shadow-sm fade-in">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-users text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-gray-500 text-sm">Tonight's Acts</p>
+                        <p class="text-2xl font-semibold" id="actsCounter">0</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Similar stat cards for other metrics -->
+            <!-- ... -->
+        </div>
+
+        <!-- Performance Chart -->
+        <div class="bg-white rounded-lg shadow-sm mb-6 p-6 fade-in">
+            <h2 class="text-lg font-semibold mb-4">Performance Ratings Trend</h2>
+            <canvas id="performanceChart" height="200"></canvas>
+        </div>
+
+        <!-- Tonight's Schedule -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm fade-in">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold">Tonight's Schedule</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4" id="scheduleList">
+                            <!-- Schedule items will be added here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm fade-in">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-lg font-semibold">Quick Actions</h2>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <button class="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300">
+                                Book New Performer
+                            </button>
+                            <button class="w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-lg hover:bg-gray-200 transition-all duration-300">
+                                View All Bookings
+                            </button>
+                            <button class="w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-lg hover:bg-gray-200 transition-all duration-300">
+                                Generate Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sample data
+        const performances = [
+            { name: 'Sarah Johnson', time: '20:00 - 21:30', type: 'Jazz Vocalist', rating: 4.9 },
+            { name: 'The Jazz Trio', time: '21:45 - 23:15', type: 'Instrumental', rating: 4.7 },
+            { name: 'Mike Stevens', time: '23:30 - 01:00', type: 'Blues', rating: 4.8 }
+        ];
+
+        // Initialize animations and counters
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate elements in
+            gsap.to('.fade-in', {
+                duration: 1,
+                opacity: 1,
+                y: 0,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            // Animate counters
+            animateValue('actsCounter', 0, 4, 2000);
+
+            // Populate schedule
+            const scheduleList = document.getElementById('scheduleList');
+            performances.forEach(perf => {
+                const div = document.createElement('div');
+                div.className = 'schedule-item flex items-center justify-between p-4 bg-gray-50 rounded-lg';
+                div.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div>
+                            <p class="font-medium">${perf.name}</p>
+                            <p class="text-sm text-gray-500">${perf.type}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-500">${perf.time}</span>
+                        <span class="flex items-center text-sm">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            ${perf.rating}
+                        </span>
+                    </div>
+                `;
+                scheduleList.appendChild(div);
+            });
+
+            // Initialize performance chart
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Average Rating',
+                        data: [4.5, 4.6, 4.8, 4.7, 4.9, 4.8, 4.7],
+                        borderColor: '#2563eb',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
